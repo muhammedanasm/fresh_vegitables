@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Fresh Veggie Wholesale</title>
+    <meta property="og:title" content="Fresh Veggie Wholesale" />
+    <meta
+      property="og:description"
+      content="Get fresh vegetables at wholesale prices. Quality produce for your business needs."
+    />
+    <meta
+      property="og:image"
+      content="https://example.com/path/to/your/image.jpg"
+    />
+    <meta property="og:url" content="https://yourwebsite.com" />
+    <meta property="og:type" content="website" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&family=Baloo+2:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --g1: #1b5e20;
+        --g2: #2e7d32;
+        --g3: #43a047;
+        --g4: #e8f5e9;
+        --g5: #c8e6c9;
+        --ink: #1a1a1a;
+        --muted: #666;
+        --border: #d0e8d0;
+        --bg: #f2f7f2;
+        --white: #fff;
+        --wa: #25d366;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Baloo 2", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      .app-header {
+        background: var(--g1);
+        color: #fff;
+        padding: 14px 16px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22);
+      }
+      .shop-name {
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .shop-sub {
+        font-size: 11px;
+        opacity: 0.75;
+        margin-top: 1px;
+      }
+      .search-input {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px 14px;
+        border-radius: 24px;
+        border: 1.5px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.15);
+        font-family: "Baloo 2", sans-serif;
+        font-size: 14px;
+        color: #fff;
+        outline: none;
+      }
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .search-input:focus {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+      .product-list {
+        padding: 10px 12px 100px;
+      }
+      .section-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: var(--g1);
+        opacity: 0.6;
+        text-transform: uppercase;
+        margin: 8px 2px 6px;
+      }
+      .p-card {
+        background: #fff;
+        border-radius: 14px;
+        border: 1.5px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .p-card.in-cart {
+        border-color: var(--g3);
+        background: #f0faf0;
+        box-shadow: 0 2px 8px rgba(46, 125, 50, 0.1);
+      }
+      .p-emoji {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: var(--g4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        flex-shrink: 0;
+      }
+      .p-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .p-ml {
+        font-size: 15px;
+        font-weight: 700;
+        font-family: "Noto Sans Malayalam", sans-serif;
+        line-height: 1.2;
+      }
+      .p-en {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .p-price {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--g1);
+        margin-top: 3px;
+      }
+      .p-price em {
+        font-style: normal;
+        font-weight: 400;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .qty-ctrl {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        flex-shrink: 0;
+      }
+      .q-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 2px solid var(--g2);
+        background: #fff;
+        color: var(--g2);
+        font-size: 21px;
+        font-weight: 700;
+        font-family: "Baloo 2", sans-serif;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+        transition: 0.12s;
+      }
+      .q-btn:active {
+        background: var(--g2);
+        color: #fff;
+        transform: scale(0.92);
+      }
+      .q-inp {
+        width: 46px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        padding: 4px 2px;
+        font-family: "Baloo 2", sans-serif;
+        color: var(--ink);
+        background: #fff;
+        -moz-appearance: textfield;
+      }
+      .q-inp::-webkit-outer-spin-button,
+      .q-inp::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+      .q-inp:focus {
+        outline: none;
+        border-color: var(--g3);
+      }
+      .sticky-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--g1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 13px 18px;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
+        z-index: 200;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 0.2s;
+      }
+      .sticky-bar.hide {
+        transform: translateY(100%);
+      }
+      .bar-left {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .bar-cnt {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .bar-total {
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .bar-cta {
+        background: #fff;
+        color: var(--g1);
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .sheet-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 300;
+        display: none;
+      }
+      .sheet-overlay.open {
+        display: block;
+      }
+      .sheet {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-radius: 20px 20px 0 0;
+        z-index: 400;
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        transform: translateY(100%);
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .sheet.open {
+        transform: translateY(0);
+      }
+      .sheet-handle {
+        width: 38px;
+        height: 4px;
+        background: #ddd;
+        border-radius: 2px;
+        margin: 12px auto 0;
+      }
+      .sheet-hdr {
+        padding: 12px 18px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .sheet-title {
+        font-size: 18px;
+        font-weight: 800;
+      }
+      .x-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #f0f0f0;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #555;
+      }
+      .cust-field {
+        padding: 12px 18px 0;
+      }
+      .cust-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 5px;
+      }
+      .cust-inp {
+        width: 100%;
+        padding: 10px 13px;
+        border-radius: 10px;
+        border: 1.5px solid var(--border);
+        font-family: "Baloo 2", sans-serif;
+        font-size: 14px;
+        color: var(--ink);
+        outline: none;
+      }
+      .cust-inp:focus {
+        border-color: var(--g3);
+      }
+      .sheet-body {
+        overflow-y: auto;
+        flex: 1;
+        padding: 10px 18px;
+      }
+      .rev-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 0;
+        border-bottom: 1px solid #f2f2f2;
+      }
+      .rev-row:last-child {
+        border-bottom: none;
+      }
+      .rev-left {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .rev-emoji {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: var(--g4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .rev-name {
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .rev-det {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .rev-amt {
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--g1);
+      }
+      .sheet-empty {
+        text-align: center;
+        padding: 36px;
+        color: var(--muted);
+      }
+      .sheet-footer {
+        padding: 14px 18px;
+        border-top: 2px solid var(--g4);
+      }
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 21px;
+        font-weight: 800;
+        margin-bottom: 13px;
+      }
+      .wa-btn {
+        width: 100%;
+        background: var(--wa);
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: 800;
+        font-family: "Baloo 2", sans-serif;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .wa-btn:active {
+        background: #1ead54;
+      }
+
+      /* ── CUSTOMER INVOICE ── */
+      #invoiceView {
+        display: none;
+        min-height: 100vh;
+        background: #fff;
+      }
+      .inv-header {
+        background: var(--g1);
+        color: #fff;
+        padding: 20px 18px 18px;
+        text-align: center;
+      }
+      .inv-shop {
+        font-size: 22px;
+        font-weight: 800;
+      }
+      .inv-tagline {
+        font-size: 12px;
+        opacity: 0.75;
+        margin-top: 2px;
+      }
+      .inv-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 20px;
+        padding: 5px 14px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+      .inv-body {
+        padding: 14px 14px 110px;
+      }
+      .inv-meta {
+        background: var(--g4);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .inv-meta-item label {
+        font-size: 11px;
+        color: var(--g2);
+        font-weight: 700;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .inv-meta-item span {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .inv-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      .inv-table thead tr {
+        background: var(--g1);
+        color: #fff;
+      }
+      .inv-table thead th {
+        padding: 8px 8px;
+        font-size: 11px;
+        text-align: left;
+        font-weight: 700;
+      }
+      .inv-table thead th:nth-child(3),
+      .inv-table thead th:nth-child(4),
+      .inv-table thead th:nth-child(5) {
+        text-align: right;
+      }
+      .inv-table tbody tr:nth-child(even) {
+        background: #f5fbf5;
+      }
+      .inv-table tbody td {
+        padding: 9px 8px;
+        border-bottom: 1px solid var(--g5);
+        vertical-align: middle;
+      }
+      .inv-table tbody td:nth-child(3),
+      .inv-table tbody td:nth-child(4),
+      .inv-table tbody td:nth-child(5) {
+        text-align: right;
+      }
+      .inv-table tbody td:nth-child(5) {
+        font-weight: 800;
+        color: var(--g1);
+      }
+      .inv-ml {
+        font-family: "Noto Sans Malayalam", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .inv-en {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .inv-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--g1);
+        color: #fff;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-top: 12px;
+      }
+      .inv-total-label {
+        font-size: 14px;
+        opacity: 0.85;
+      }
+      .inv-total-amt {
+        font-size: 24px;
+        font-weight: 800;
+      }
+      .inv-note {
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 14px;
+        line-height: 1.6;
+        padding: 0 4px;
+      }
+      .print-sticky {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 14px 16px;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+        z-index: 200;
+      }
+      .print-btn {
+        width: 100%;
+        background: var(--g1);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 15px;
+        font-size: 17px;
+        font-weight: 800;
+        font-family: "Baloo 2", sans-serif;
+        cursor: pointer;
+      }
+      .no-res {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--muted);
+      }
+
+      /* ── PRINT ── */
+      @media print {
+        body > *:not(#invoiceView) {
+          display: none !important;
+        }
+        #invoiceView {
+          display: block !important;
+        }
+        .print-sticky {
+          display: none !important;
+        }
+        .inv-body {
+          padding-bottom: 20px !important;
+        }
+        .inv-header,
+        .inv-table thead tr,
+        .inv-total-row,
+        .inv-meta {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        @page {
+          margin: 6mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ ADMIN VIEW ══ -->
+    <div id="adminView">
+      <div class="app-header">
+        <div class="shop-name">🥬 Fresh Veggie Wholesale</div>
+        <div class="shop-sub">Admin · Build Customer Order</div>
+        <input
+          class="search-input"
+          id="searchInput"
+          type="text"
+          placeholder="🔍 Search vegetables / പച്ചക്കറി തിരയുക..."
+          autocomplete="off"
+        />
+      </div>
+      <div class="product-list" id="productList"></div>
+      <div class="sticky-bar hide" id="stickyBar" onclick="openSheet()">
+        <div class="bar-left">
+          <div class="bar-cnt" id="barCnt">0 items</div>
+          <div class="bar-total" id="barTotal">₹0.00</div>
+        </div>
+        <div class="bar-cta">Review & Share →</div>
+      </div>
+    </div>
+
+    <!-- Share Sheet -->
+    <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+    <div class="sheet" id="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-hdr">
+        <div class="sheet-title">📋 Order Summary</div>
+        <button class="x-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <div class="cust-field">
+        <label class="cust-label">Customer Name (optional)</label>
+        <input
+          class="cust-inp"
+          type="text"
+          id="custName"
+          placeholder="e.g. Rajan Stores"
+        />
+      </div>
+      <div class="sheet-body" id="sheetBody"></div>
+      <div class="sheet-footer">
+        <div class="total-row">
+          <span>Total</span><span id="sheetTotal">₹0.00</span>
+        </div>
+        <button class="wa-btn" onclick="shareViaWhatsApp()">
+          <span style="font-size: 20px">💬</span> Send Invoice via WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ CUSTOMER INVOICE VIEW ══ -->
+    <div id="invoiceView">
+      <div class="inv-header">
+        <div class="inv-shop">🥬 Fresh Veggie Wholesale</div>
+        <div class="inv-tagline">Quality Vegetables · Wholesale Supplier</div>
+        <div class="inv-badge" id="invBadge">Invoice</div>
+      </div>
+      <div class="inv-body">
+        <div class="inv-meta" id="invMeta"></div>
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Vegetable</th>
+              <th>Qty</th>
+              <th>Rate</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="invRows"></tbody>
+        </table>
+        <div class="inv-total-row">
+          <div class="inv-total-label">Grand Total</div>
+          <div class="inv-total-amt" id="invGrandTotal">₹0.00</div>
+        </div>
+        <div class="inv-note" id="invNote"></div>
+      </div>
+      <div class="print-sticky">
+        <button class="print-btn" onclick="window.print()">
+          🖨️ Print Invoice
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const SHOP = "Fresh Veggie Wholesale";
+      const WA_NUMBER = "919645016304";
+
+      const PRODUCTS = [
+        {
+          id: 1,
+          ml: "തക്കാളി",
+          en: "Tomato",
+          emoji: "🍅",
+          price: 40,
+          unit: "kg",
+        },
+        { id: 2, ml: "സവോള", en: "Onion", emoji: "🧅", price: 35, unit: "kg" },
+        {
+          id: 3,
+          ml: "ഉരുളക്കിഴങ്ങ്",
+          en: "Potato",
+          emoji: "🥔",
+          price: 30,
+          unit: "kg",
+        },
+        {
+          id: 4,
+          ml: "കാരറ്റ്",
+          en: "Carrot",
+          emoji: "🥕",
+          price: 55,
+          unit: "kg",
+        },
+        {
+          id: 5,
+          ml: "ഇഞ്ചി",
+          en: "Ginger",
+          emoji: "🫚",
+          price: 120,
+          unit: "kg",
+        },
+        {
+          id: 6,
+          ml: "വെള്ളുള്ളി",
+          en: "Garlic",
+          emoji: "🧄",
+          price: 160,
+          unit: "kg",
+        },
+        { id: 7, ml: "ബീൻസ്", en: "Beans", emoji: "🫘", price: 70, unit: "kg" },
+        {
+          id: 8,
+          ml: "കാബേജ്",
+          en: "Cabbage",
+          emoji: "🥬",
+          price: 25,
+          unit: "kg",
+        },
+        { id: 9, ml: "ചീര", en: "Spinach", emoji: "🌿", price: 30, unit: "kg" },
+        {
+          id: 10,
+          ml: "പടവലം",
+          en: "Snake Gourd",
+          emoji: "🥒",
+          price: 45,
+          unit: "kg",
+        },
+        {
+          id: 11,
+          ml: "പാവക്ക",
+          en: "Bitter Gourd",
+          emoji: "🫑",
+          price: 60,
+          unit: "kg",
+        },
+        {
+          id: 12,
+          ml: "പയർ",
+          en: "Long Beans",
+          emoji: "🌱",
+          price: 65,
+          unit: "kg",
+        },
+        {
+          id: 13,
+          ml: "വഴുതന",
+          en: "Brinjal",
+          emoji: "🍆",
+          price: 50,
+          unit: "kg",
+        },
+        { id: 14, ml: "ചേന", en: "Yam", emoji: "🟤", price: 55, unit: "kg" },
+        {
+          id: 15,
+          ml: "മുളക്",
+          en: "Green Chilli",
+          emoji: "🌶️",
+          price: 100,
+          unit: "kg",
+        },
+        {
+          id: 16,
+          ml: "കറിവേപ്പില",
+          en: "Curry Leaves",
+          emoji: "🍃",
+          price: 20,
+          unit: "bunch",
+        },
+        {
+          id: 17,
+          ml: "കോളിഫ്ളവർ",
+          en: "Cauliflower",
+          emoji: "🥦",
+          price: 45,
+          unit: "kg",
+        },
+        {
+          id: 18,
+          ml: "മത്ത",
+          en: "Pumpkin",
+          emoji: "🎃",
+          price: 22,
+          unit: "kg",
+        },
+        {
+          id: 19,
+          ml: "ലീക്ക്",
+          en: "Leek",
+          emoji: "🌾",
+          price: 80,
+          unit: "kg",
+        },
+        {
+          id: 20,
+          ml: "നേന്ത്രക്കായ",
+          en: "Raw Banana",
+          emoji: "🍌",
+          price: 35,
+          unit: "kg",
+        },
+      ];
+
+      let cart = {};
+
+      /* ── URL decode on load ── */
+      (function () {
+        console.log("Page load, hash:", location.hash);
+        try {
+          const hash = location.hash.slice(1);
+          if (!hash) {
+            console.log("No hash, showing admin");
+            document.getElementById("adminView").style.display = "block";
+            renderProducts();
+            return;
+          }
+          const data = JSON.parse(decodeURIComponent(atob(hash)));
+          if (data && data.items) {
+            console.log("Hash has data, showing invoice");
+            showInvoice(data);
+            return;
+          }
+        } catch (e) {
+          console.log("Error parsing hash:", e);
+        }
+        console.log("Fallback to admin");
+        document.getElementById("adminView").style.display = "block";
+        renderProducts();
+      })();
+
+      /* ── Admin: product list ── */
+      function renderProducts(filter = "") {
+        console.log("renderProducts called with filter:", filter);
+        const list = document.getElementById("productList");
+        console.log("productList element:", list);
+        const filtered = PRODUCTS.filter(
+          (p) =>
+            p.ml.includes(filter) ||
+            p.en.toLowerCase().includes(filter.toLowerCase()),
+        );
+        console.log("filtered products:", filtered.length);
+        if (!filtered.length) {
+          list.innerHTML = `<div class="no-res">😕 No results for "<b>${filter}</b>"</div>`;
+          return;
+        }
+        list.innerHTML =
+          `<div class="section-label">All Vegetables (${filtered.length})</div>` +
+          filtered
+            .map((p) => {
+              const qty = cart[p.id] || 0;
+              return `<div class="p-card ${qty > 0 ? "in-cart" : ""}" id="card-${p.id}">
+        <div class="p-emoji">${p.emoji}</div>
+        <div class="p-info">
+          <div class="p-ml">${p.ml}</div>
+          <div class="p-en">${p.en}</div>
+          <div class="p-price">₹${p.price} <em>/ ${p.unit}</em></div>
+        </div>
+        <div class="qty-ctrl">
+          <button class="q-btn" onclick="chg(${p.id},-0.5)">−</button>
+          <input class="q-inp" type="number" min="0" step="0.5"
+            value="${qty > 0 ? qty : ""}" placeholder="0" id="qi-${p.id}"
+            onchange="setQ(${p.id},this.value)" oninput="setQ(${p.id},this.value)">
+          <button class="q-btn" onclick="chg(${p.id},0.5)">+</button>
+        </div>
+      </div>`;
+            })
+            .join("");
+        console.log("innerHTML set");
+      }
+
+      function chg(id, d) {
+        const cur = parseFloat(cart[id] || 0);
+        const next = Math.max(0, parseFloat((cur + d).toFixed(2)));
+        if (next === 0) delete cart[id];
+        else cart[id] = next;
+        const inp = document.getElementById("qi-" + id);
+        if (inp) inp.value = next > 0 ? next : "";
+        document
+          .getElementById("card-" + id)
+          ?.classList.toggle("in-cart", next > 0);
+        updateBar();
+      }
+      function setQ(id, v) {
+        const n = parseFloat(v);
+        if (isNaN(n) || n <= 0) delete cart[id];
+        else cart[id] = parseFloat(n.toFixed(2));
+        document
+          .getElementById("card-" + id)
+          ?.classList.toggle("in-cart", (cart[id] || 0) > 0);
+        updateBar();
+      }
+      function cartStats() {
+        let count = 0,
+          total = 0;
+        for (const [id, qty] of Object.entries(cart)) {
+          const p = PRODUCTS.find((x) => x.id == id);
+          if (p) {
+            count++;
+            total += p.price * qty;
+          }
+        }
+        return { count, total };
+      }
+      function updateBar() {
+        const { count, total } = cartStats();
+        document.getElementById("barCnt").textContent =
+          `${count} item${count !== 1 ? "s" : ""}`;
+        document.getElementById("barTotal").textContent =
+          `₹${total.toFixed(2)}`;
+        document
+          .getElementById("stickyBar")
+          .classList.toggle("hide", count === 0);
+      }
+
+      /* ── Sheet ── */
+      function openSheet() {
+        renderSheet();
+        document.getElementById("overlay").classList.add("open");
+        document.getElementById("sheet").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeSheet() {
+        document.getElementById("overlay").classList.remove("open");
+        document.getElementById("sheet").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function renderSheet() {
+        const items = Object.entries(cart);
+        const { total } = cartStats();
+        const body = document.getElementById("sheetBody");
+        if (!items.length) {
+          body.innerHTML = `<div class="sheet-empty">Cart is empty</div>`;
+          document.getElementById("sheetTotal").textContent = "₹0.00";
+          return;
+        }
+        body.innerHTML = items
+          .map(([id, qty]) => {
+            const p = PRODUCTS.find((x) => x.id == id);
+            if (!p) return "";
+            return `<div class="rev-row">
+      <div class="rev-left">
+        <div class="rev-emoji">${p.emoji}</div>
+        <div>
+          <div class="rev-name">${p.ml} (${p.en})</div>
+          <div class="rev-det">${qty} ${p.unit} × ₹${p.price}</div>
+        </div>
+      </div>
+      <div class="rev-amt">₹${(p.price * qty).toFixed(2)}</div>
+    </div>`;
+          })
+          .join("");
+        document.getElementById("sheetTotal").textContent =
+          `₹${total.toFixed(2)}`;
+      }
+
+      /* ── Generate link & share ── */
+      function shareViaWhatsApp() {
+        const items = Object.entries(cart);
+        if (!items.length) {
+          alert("Cart is empty!");
+          return;
+        }
+        const custName = document.getElementById("custName").value.trim();
+        const now = new Date();
+        const payload = {
+          cust: custName,
+          date: now.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }),
+          time: now.toLocaleTimeString("en-IN", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          inv: "INV-" + Math.floor(1000 + Math.random() * 9000),
+          items: items
+            .map(([id, qty]) => {
+              const p = PRODUCTS.find((x) => x.id == id);
+              return p ? { id: p.id, qty: parseFloat(qty) } : null;
+            })
+            .filter(Boolean),
+        };
+
+        const encoded = btoa(encodeURIComponent(JSON.stringify(payload)));
+        const pageUrl = location.href.split("#")[0] + "#" + encoded;
+        const { total } = cartStats();
+
+        let msg = `🥬 *${SHOP}*\n`;
+        if (custName) msg += `👤 ${custName}\n`;
+        msg += `📄 ${payload.inv} | 📅 ${payload.date}, ${payload.time}\n`;
+        msg += `─────────────────\n`;
+        payload.items.forEach((item, i) => {
+          const p = PRODUCTS.find((x) => x.id == item.id);
+          if (p)
+            msg += `${i + 1}. ${p.ml} (${p.en}) — ${item.qty}${p.unit} × ₹${p.price} = ₹${(p.price * item.qty).toFixed(2)}\n`;
+        });
+        msg += `─────────────────\n`;
+        msg += `💰 *Total: ₹${total.toFixed(2)}*\n\n`;
+        msg += `🖨️ *Open & Print Invoice:*\n${pageUrl}`;
+
+        window.open(
+          `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,
+          "_blank",
+        );
+        closeSheet();
+      }
+
+      /* ── Customer invoice render ── */
+      function showInvoice(data) {
+        document.getElementById("adminView").style.display = "none";
+        document.getElementById("invoiceView").style.display = "block";
+        document.getElementById("invBadge").textContent = data.inv || "Invoice";
+
+        document.getElementById("invMeta").innerHTML = `
+    <div class="inv-meta-item"><label>Date</label><span>${data.date || "—"}</span></div>
+    <div class="inv-meta-item"><label>Time</label><span>${data.time || "—"}</span></div>
+    <div class="inv-meta-item"><label>Invoice No.</label><span>${data.inv || "—"}</span></div>
+    <div class="inv-meta-item"><label>Customer</label><span>${data.cust || "Walk-in"}</span></div>`;
+
+        let grand = 0;
+        document.getElementById("invRows").innerHTML = (data.items || [])
+          .map((item, i) => {
+            const p = PRODUCTS.find((x) => x.id == item.id);
+            if (!p) return "";
+            const amt = p.price * item.qty;
+            grand += amt;
+            return `<tr>
+      <td style="color:var(--muted);font-size:11px">${i + 1}</td>
+      <td><div class="inv-ml">${p.emoji} ${p.ml}</div><div class="inv-en">${p.en}</div></td>
+      <td>${item.qty} ${p.unit}</td>
+      <td>₹${p.price}</td>
+      <td>₹${amt.toFixed(2)}</td>
+    </tr>`;
+          })
+          .join("");
+
+        document.getElementById("invGrandTotal").textContent =
+          `₹${grand.toFixed(2)}`;
+        document.getElementById("invNote").innerHTML =
+          `Thank you for your order!<br>${SHOP} · For queries, contact us on WhatsApp.`;
+      }
+
+      document.getElementById("searchInput")?.addEventListener("input", (e) => {
+        renderProducts(e.target.value.trim());
+      });
+    </script>
+  </body>
+</html>
