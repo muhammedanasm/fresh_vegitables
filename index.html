@@ -964,32 +964,77 @@
       }
 
       /* ── Generate link & share ── */
+      // function shareViaWhatsApp() {
+      //   const items = Object.entries(cart);
+      //   if (!items.length) {
+      //     alert("Cart is empty!");
+      //     return;
+      //   }
+      //   const custName = document.getElementById("custName").value.trim();
+      //   const now = new Date();
+      //   const payload = {
+      //     cust: custName,
+      //     date: now.toLocaleDateString("en-IN", {
+      //       day: "2-digit",
+      //       month: "short",
+      //       year: "numeric",
+      //     }),
+      //     time: now.toLocaleTimeString("en-IN", {
+      //       hour: "2-digit",
+      //       minute: "2-digit",
+      //     }),
+      //     inv: "INV-" + Math.floor(1000 + Math.random() * 9000),
+      //     items: items
+      //       .map(([id, qty]) => {
+      //         const p = PRODUCTS.find((x) => x.id == id);
+      //         return p ? { id: p.id, qty: parseFloat(qty) } : null;
+      //       })
+      //       .filter(Boolean),
+      //   };
+
+      //   const encoded = btoa(encodeURIComponent(JSON.stringify(payload)));
+      //   const pageUrl = location.href.split("#")[0] + "#" + encoded;
+      //   const { total } = cartStats();
+
+      //   let msg = `🥬 *${SHOP}*\n`;
+      //   if (custName) msg += `👤 ${custName}\n`;
+      //   msg += `📄 ${payload.inv} | 📅 ${payload.date}, ${payload.time}\n`;
+      //   msg += `─────────────────\n`;
+      //   payload.items.forEach((item, i) => {
+      //     const p = PRODUCTS.find((x) => x.id == item.id);
+      //     if (p)
+      //       msg += `${i + 1}. ${p.ml} (${p.en}) — ${item.qty}${p.unit} × ₹${p.price} = ₹${(p.price * item.qty).toFixed(2)}\n`;
+      //   });
+      //   msg += `─────────────────\n`;
+      //   msg += `💰 *Total: ₹${total.toFixed(2)}*\n\n`;
+      //   msg += `🖨️ *Open & Print Invoice:*\n${pageUrl}`;
+
+      //   window.open(
+      //     `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,
+      //     "_blank",
+      //   );
+      //   closeSheet();
+      // }
       function shareViaWhatsApp() {
         const items = Object.entries(cart);
-        if (!items.length) {
-          alert("Cart is empty!");
-          return;
-        }
+        if (!items.length) return alert("Cart is empty!");
+
         const custName = document.getElementById("custName").value.trim();
         const now = new Date();
+
+        // ചെറിയ കീ (Keys) ഉപയോഗിച്ച് ഡാറ്റ കുറയ്ക്കുന്നു
         const payload = {
-          cust: custName,
-          date: now.toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          }),
-          time: now.toLocaleTimeString("en-IN", {
+          c: custName, // customer
+          d: now.toLocaleDateString("en-IN"), // date
+          t: now.toLocaleTimeString("en-IN", {
             hour: "2-digit",
             minute: "2-digit",
-          }),
-          inv: "INV-" + Math.floor(1000 + Math.random() * 9000),
-          items: items
-            .map(([id, qty]) => {
-              const p = PRODUCTS.find((x) => x.id == id);
-              return p ? { id: p.id, qty: parseFloat(qty) } : null;
-            })
-            .filter(Boolean),
+          }), // time
+          n: Math.floor(1000 + Math.random() * 9000), // invoice number
+          i: items.map(([id, qty]) => ({
+            id: parseInt(id),
+            q: parseFloat(qty),
+          })), // items & qty
         };
 
         const encoded = btoa(encodeURIComponent(JSON.stringify(payload)));
@@ -998,16 +1043,18 @@
 
         let msg = `🥬 *${SHOP}*\n`;
         if (custName) msg += `👤 ${custName}\n`;
-        msg += `📄 ${payload.inv} | 📅 ${payload.date}, ${payload.time}\n`;
+        msg += `📄 INV-${payload.n} | 📅 ${payload.d}, ${payload.t}\n`;
         msg += `─────────────────\n`;
-        payload.items.forEach((item, i) => {
+
+        payload.i.forEach((item, index) => {
           const p = PRODUCTS.find((x) => x.id == item.id);
           if (p)
-            msg += `${i + 1}. ${p.ml} (${p.en}) — ${item.qty}${p.unit} × ₹${p.price} = ₹${(p.price * item.qty).toFixed(2)}\n`;
+            msg += `${index + 1}. ${p.ml} — ${item.q}${p.unit} × ₹${p.price} = ₹${(p.price * item.q).toFixed(2)}\n`;
         });
+
         msg += `─────────────────\n`;
         msg += `💰 *Total: ₹${total.toFixed(2)}*\n\n`;
-        msg += `🖨️ *Open & Print Invoice:*\n${pageUrl}`;
+        msg += `🖨️ *Print Invoice:* \n${pageUrl}`; // ലിങ്ക് അവസാനം നൽകുക
 
         window.open(
           `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,
@@ -1017,38 +1064,71 @@
       }
 
       /* ── Customer invoice render ── */
+      //   function showInvoice(data) {
+      //     document.getElementById("adminView").style.display = "none";
+      //     document.getElementById("invoiceView").style.display = "block";
+      //     document.getElementById("invBadge").textContent = data.inv || "Invoice";
+
+      //     document.getElementById("invMeta").innerHTML = `
+      // <div class="inv-meta-item"><label>Date</label><span>${data.date || "—"}</span></div>
+      // <div class="inv-meta-item"><label>Time</label><span>${data.time || "—"}</span></div>
+      // <div class="inv-meta-item"><label>Invoice No.</label><span>${data.inv || "—"}</span></div>
+      // <div class="inv-meta-item"><label>Customer</label><span>${data.cust || "Walk-in"}</span></div>`;
+
+      //     let grand = 0;
+      //     document.getElementById("invRows").innerHTML = (data.items || [])
+      //       .map((item, i) => {
+      //         const p = PRODUCTS.find((x) => x.id == item.id);
+      //         if (!p) return "";
+      //         const amt = p.price * item.qty;
+      //         grand += amt;
+      //         return `<tr>
+      //   <td style="color:var(--muted);font-size:11px">${i + 1}</td>
+      //   <td><div class="inv-ml">${p.emoji} ${p.ml}</div><div class="inv-en">${p.en}</div></td>
+      //   <td>${item.qty} ${p.unit}</td>
+      //   <td>₹${p.price}</td>
+      //   <td>₹${amt.toFixed(2)}</td>
+      // </tr>`;
+      //       })
+      //       .join("");
+
+      //     document.getElementById("invGrandTotal").textContent =
+      //       `₹${grand.toFixed(2)}`;
+      //     document.getElementById("invNote").innerHTML =
+      //       `Thank you for your order!<br>${SHOP} · For queries, contact us on WhatsApp.`;
+      //   }
+
       function showInvoice(data) {
         document.getElementById("adminView").style.display = "none";
         document.getElementById("invoiceView").style.display = "block";
-        document.getElementById("invBadge").textContent = data.inv || "Invoice";
 
+        // പുതിയ ചെറിയ കീകൾ (c, d, t, n, i) ഇവിടെ ഉപയോഗിക്കുന്നു
+        document.getElementById("invBadge").textContent = "INV-" + data.n;
         document.getElementById("invMeta").innerHTML = `
-    <div class="inv-meta-item"><label>Date</label><span>${data.date || "—"}</span></div>
-    <div class="inv-meta-item"><label>Time</label><span>${data.time || "—"}</span></div>
-    <div class="inv-meta-item"><label>Invoice No.</label><span>${data.inv || "—"}</span></div>
-    <div class="inv-meta-item"><label>Customer</label><span>${data.cust || "Walk-in"}</span></div>`;
+    <div class="inv-meta-item"><label>Date</label><span>${data.d || "—"}</span></div>
+    <div class="inv-meta-item"><label>Time</label><span>${data.t || "—"}</span></div>
+    <div class="inv-meta-item"><label>Invoice No.</label><span>${data.n || "—"}</span></div>
+    <div class="inv-meta-item"><label>Customer</label><span>${data.c || "Walk-in"}</span></div>`;
 
         let grand = 0;
-        document.getElementById("invRows").innerHTML = (data.items || [])
-          .map((item, i) => {
+        document.getElementById("invRows").innerHTML = (data.i || [])
+          .map((item, index) => {
             const p = PRODUCTS.find((x) => x.id == item.id);
             if (!p) return "";
-            const amt = p.price * item.qty;
+            const amt = p.price * item.q;
             grand += amt;
             return `<tr>
-      <td style="color:var(--muted);font-size:11px">${i + 1}</td>
-      <td><div class="inv-ml">${p.emoji} ${p.ml}</div><div class="inv-en">${p.en}</div></td>
-      <td>${item.qty} ${p.unit}</td>
-      <td>₹${p.price}</td>
-      <td>₹${amt.toFixed(2)}</td>
-    </tr>`;
+        <td>${index + 1}</td>
+        <td><div class="inv-ml">${p.emoji} ${p.ml}</div><div class="inv-en">${p.en}</div></td>
+        <td>${item.q} ${p.unit}</td>
+        <td>₹${p.price}</td>
+        <td>₹${amt.toFixed(2)}</td>
+      </tr>`;
           })
           .join("");
 
         document.getElementById("invGrandTotal").textContent =
           `₹${grand.toFixed(2)}`;
-        document.getElementById("invNote").innerHTML =
-          `Thank you for your order!<br>${SHOP} · For queries, contact us on WhatsApp.`;
       }
 
       document.getElementById("searchInput")?.addEventListener("input", (e) => {
